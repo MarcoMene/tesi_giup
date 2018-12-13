@@ -1,27 +1,28 @@
 
 
 art_departments = {
-66 : "19th century European Art",
-    3: "American Art"
+    66: "19th century European Art",
+    3: "American Art",
+    101: "British Art on Paper (1600-1850)",
+    29: "Impressionist & Modern Art",
+    99: "Modern British & Irish Art",
+    69: "Old Master Drawings",
+    70: "Old Master Paintings",
+    74: "Post-War & Contemporary Art",
+    96: "Scottish Art",
+    50: "Sporting & Wildlife Art",
+    100: "Victorian, Pre-Raphaelite & British Impressionist Art" 
 }
 
-British Art on Paper (1600-1850) 101
-Impressionist & Modern Art 29
-Modern British & Irish Art 99
-Old Master Drawings 69
-Old Master Paintings 70
-Post-War & Contemporary Art 74
-Scottish Art 96
-Sporting & Wildlife Art 50
-Victorian, Pre-Raphaelite & British Impressionist Art 100
+design_departments = {
+    68: "19th Century Furniture & Sculpture",
+    4: "American Folk Art & Outsider Art",
+    5: "American Furniture & Decorative Arts",
+    59: "Design",
+    111: "Early European Sculpture & Works of Art",
+    112: "English Furniture & Works of Art",
+    25: "European Ceramics & Glass",
+    26: "European Furniture & Works of Art",
+    103: "Interiors"
+}
 
-(DESIGN)
-19th Century Furniture & Sculpture 68
-American Folk Art & Outsider Art 4
-American Furniture & Decorative Arts 5
-Design 59
-Early European Sculpture & Works of Art 111
-English Furniture & Works of Art 112
-European Ceramics & Glass 25
-European Furniture & Works of Art 26
-Interiors 103
