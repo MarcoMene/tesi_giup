@@ -17,3 +17,5 @@ celerybeat*
 .DS_Store
 /.DS_Store
 *.html
+*.csv
+*.xlsx

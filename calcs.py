@@ -11,11 +11,14 @@ def extract_kpis(auctions_data):
     res['money'] = auctions_data['price'].sum()
     res['lots_sold'] = auctions_data['lot'].count()
 
-    # TODO remove string lots in a better way
-    int_lots = [int(a.split(" ")[0]) if not isinstance(a, str) else a for a in list(auctions_data['lot'])]
+    lots = auctions_data['lot']
+    if lots.dtype == int:
+        int_lots = lots
+    elif 1 == 1:
+        int_lots = [int(a.split(" ")[0]) if isinstance(a, str) else a for a in list(lots)]
 
     # res['lots_unsold'] = auctions_data['lot'].max() - res['lots_sold']
-    res['lots_unsold'] = max(int_lots) - res['lots_sold']
+    res['lots_unsold'] = (max(int_lots) - res['lots_sold']) if len(int_lots) > 0 else 0
 
     res['avg'] = auctions_data['price'].mean()
     res['median'] = auctions_data['price'].median()

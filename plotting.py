@@ -5,7 +5,7 @@ def show_plot():
     plt.show()
 
 
-def plot_single_auction(auctions_data, bins=100, logx=False, logy=False):
+def plot_single_auction(auctions_data, bins=100, logx=False, logy=False, title=""):
     """
 
     :param auctions_data: DataFrame with columns 'lot', 'price'
@@ -13,6 +13,7 @@ def plot_single_auction(auctions_data, bins=100, logx=False, logy=False):
     prices = auctions_data['price']
 
     plt.hist(prices, bins=bins)
+    plt.title(title)
     plt.xlabel('{}price'.format("log " if logx else ""))
     plt.ylabel('{}count'.format("log " if logy else ""))
 

@@ -37,4 +37,4 @@ for f in listdir(auctions_folder):
     # break
 
 dataset = pd.DataFrame(aggregated_dataset)
-dataset.to_csv("{}_auctions_data.csv".format(auction_prefix))
+dataset.to_csv("output_csv/{}_auctions_data.csv".format(auction_prefix))
