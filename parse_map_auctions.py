@@ -39,7 +39,7 @@ def calc_and_get_auction_map():
         # break
 
     for auction_id in auction_map.keys():
-        auction_map[auction_id]['cartegory'] = category_from_ids(auction_map[auction_id]['departments_ids'])
+        auction_map[auction_id]['category'] = category_from_ids(auction_map[auction_id]['departments_ids'])
 
     # print(auction_map)
     return auction_map
