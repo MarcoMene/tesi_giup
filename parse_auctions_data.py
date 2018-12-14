@@ -1,7 +1,7 @@
 from os import listdir
 import pandas as pd
 
-from calcs import extract_kpis
+from auction_calcs import extract_kpis
 from parse_map_auctions import calc_and_get_auction_map
 from plotting import plot_single_auction
 
