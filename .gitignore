@@ -3,6 +3,7 @@
 .idea*
 *.pyc
 .env*
+venv
 bigquery_credentials.dat
 google_env_variable.json
 google_env_variable_crystal.json
