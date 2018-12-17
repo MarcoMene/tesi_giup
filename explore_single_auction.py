@@ -14,7 +14,7 @@ auction_prefix = "christie"
 
 auction_map = calc_and_get_auction_map()
 
-auction_id = "27988"
+auction_id = "26830"
 
 f = "{}_{}.csv".format(auction_prefix, auction_id)
 
