@@ -44,14 +44,11 @@ confidence = 1 - alpha
 # single fit  ** CONFIGURATION
 currency = 'GBP'
 category = 'art' # 'design' #
-kpi = 'median'
-
 
 current_timeseries = timseries_data[ (timseries_data['currency'] == currency) & (timseries_data['category'] == category)]
 current_timeseries.dropna(inplace=True)
 
-ys = list(current_timeseries[kpi])
-log_ys = [log10(y) for y in ys]
+ys = list(  current_timeseries['lots_unsold']/(current_timeseries['lots_unsold'] + current_timeseries['lots_sold']) )
 
 # take series of timedelta (in years)
 min_time = current_timeseries['date'].min()
@@ -59,26 +56,27 @@ time_deltas = (current_timeseries['date'] - min_time)
 xs = [td.total_seconds()/YEAR_SECONDS for td in time_deltas]
 
 
-log_fit_result = fit_parameters(linear, xs, log_ys)
+# fit_result = fit_parameters(linear, xs, ys)
 
-log_m = log_fit_result[0]
-estimate_m, sigma_m = log_m.n, log_m.s
+fit_result = fit_parameters(linear, xs, ys)
+
+m = fit_result[0]
+estimate_m, sigma_m = m.n, m.s
 
 t_stat = abs(estimate_m) / sigma_m
 
 
-print(" {} - {} - {}".format(currency, category, kpi))
+print(" {} - {} - {}".format(currency, category, "percentage of lots unsold"))
 
-print("(m , q) : {}".format(log_fit_result))
+print("(m , q) : {}".format(fit_result))
 print("t-stat (n-sigma): {}".format(t_stat))
 
 p_value = sigma_to_p_value(t_stat)
 print("p-value: {}".format(p_value))
 
-ten_to_m = 10 ** log_m
-print("10^m: {} --> {} {}".format(ten_to_m, ten_to_m.n, ten_to_m.s))
+print("1m: {} --> {} {}".format(m, m.n, m.s))
 
 if p_value < alpha:
-    print("Reject null hypothesis (No trend). So there's a trend with m: {} , (linear scale {})".format(log_m, ten_to_m))
+    print("Reject null hypothesis (No trend). So there's a trend with m: {}".format(m))
 else:
     print("Cannot reject null hypothesis")
