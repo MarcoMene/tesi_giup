@@ -9,9 +9,7 @@ from plotting import plot_single_auction
 from numpy import log10, abs
 from scipy.stats import norm
 
-from utils import sigma_to_p_value
-
-YEAR_SECONDS = 86400*365
+from utils import sigma_to_p_value, dates_to_timedelta_in_years
 
 
 input_file = "/Users/marcomeneghelli/PycharmProjects/tesi_giup/output_csv/christie_auctions_data.csv"
@@ -51,9 +49,7 @@ current_timeseries.dropna(inplace=True)
 ys = list(  current_timeseries['lots_unsold']/(current_timeseries['lots_unsold'] + current_timeseries['lots_sold']) )
 
 # take series of timedelta (in years)
-min_time = current_timeseries['date'].min()
-time_deltas = (current_timeseries['date'] - min_time)
-xs = [td.total_seconds()/YEAR_SECONDS for td in time_deltas]
+xs = dates_to_timedelta_in_years(current_timeseries['date'])
 
 
 # fit_result = fit_parameters(linear, xs, ys)
