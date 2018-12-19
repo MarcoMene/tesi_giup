@@ -24,12 +24,17 @@ alpha = 0.01
 confidence = 1 - alpha
 
 # single fit  ** CONFIGURATION
-currency = 'EUR'
-category = 'design'  # 'art'  #
+currency = 'USD'
+category =    'art'  # 'design'  #
 kpi = 'money'
+
+start_date = "2008-01-01"
+end_date = "2009-12-31"
 
 current_timeseries = timseries_data[(timseries_data['currency'] == currency) &
                                     (timseries_data['category'] == category)
+                                    & (timseries_data['date'] >= start_date)
+                                    & (timseries_data['date'] <= end_date)
                                     #  &  (timseries_data['departments_ids'].str.contains('29'))  # per vedere singolo dipartimento
 
                                     #&  (  timseries_data['departments_ids'].str.contains('29') | timseries_data['departments_ids'].str.contains('74')  | timseries_data['departments_ids'].str.contains('111') )  # per vedere piuù dipartimenti
