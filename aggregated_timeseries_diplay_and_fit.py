@@ -13,7 +13,7 @@ from utils import date_range, date_to_str
 
 from utils import sigma_to_p_value, dates_to_timedelta_in_years
 
-input_file = "/Users/marcomeneghelli/PycharmProjects/tesi_giup/output_csv/christie_auctions_data.csv"
+input_file = "/Users/Giulia/bendingspoons/tesi_giup/output_csv/christie_auctions_data.csv"
 
 # sort values by time
 timseries_data = pd.read_csv(input_file)
