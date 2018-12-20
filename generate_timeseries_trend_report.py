@@ -33,12 +33,14 @@ aggregated_dataset = []
 
 for currency in currencies:
     for category in categories:
-        for department in departments:
+        # for department in departments:
             for kpi in kpis:
 
                 current_timeseries = timseries_data[(timseries_data['currency'] == currency) & \
-                                                    (timseries_data['category'] == category) & \
-                                                    (timseries_data['departments_ids'].str.contains(department))]
+                                                    (timseries_data['category'] == category)
+                                                    # & \
+                                                    # (timseries_data['departments_ids'].str.contains(department))
+                ]
                 current_timeseries.dropna(inplace=True)
 
                 current_timeseries = current_timeseries[current_timeseries[kpi] > 0]
@@ -69,7 +71,7 @@ for currency in currencies:
                 row_to_add = {
                     'currency': currency,
                     'category': category,
-                    'department': department,
+                    # 'department': department,
                     'kpi': kpi,
                     'm': log_m.n,
                     'm_err': log_m.s,
@@ -85,4 +87,4 @@ for currency in currencies:
     # break
 
 dataset = pd.DataFrame(aggregated_dataset)
-dataset.to_csv("output_csv/christie_timeseries_fit_data.csv")
+dataset.to_csv("output_csv/christie_timeseries_fit_data_aggregated.csv")
