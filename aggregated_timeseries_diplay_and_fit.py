@@ -4,6 +4,7 @@ import pandas as pd
 from auction_calcs import extract_kpis
 from christies_departments import art_departments, design_departments
 from fitting import fit_parameters, linear
+from geometric_brownian_motion_fit import fit_gbm
 from parse_map_auctions import calc_and_get_auction_map
 from plotting import plot_single_auction, plot_single_timeseries, plot_errorbar_timeseries
 from numpy import log10, abs, sqrt
@@ -27,21 +28,24 @@ YEAR_DAYS = 365
 def n_months_days(n):
     return n * 31
 
-date_borders = date_range(min_date, max_date, delta_days=YEAR_DAYS)
-date_borders.append(max_date)
 
 # ** CONFIGURATION
 
-alpha = 0.05
+alpha = 0.01
 confidence = 1 - alpha
 
 # single fit
 currency = 'GBP'
-category = 'art'  # 'design' #
+category = 'design' # 'art'  #
 kpi = 'avg' # 'money' #
+
+granularity_in_days = YEAR_DAYS # n_months_days(6) #
 
 # ** END CONFIGURATION
 
+
+date_borders = date_range(min_date, max_date, delta_days=granularity_in_days)
+date_borders.append(max_date)
 
 # extract and clean data
 current_timeseries = timseries_data[(timseries_data['currency'] == currency) & (timseries_data['category'] == category)]
@@ -66,38 +70,25 @@ for i in range(len(date_borders) - 1):
     # ys.append(partial_timeseries[kpi].sum())
 
 
-# TODO: setup a geometric brownian motion fit
-
 # stat analysis
+mu_est, mu_err_est, sigma_est = fit_gbm(ys, delta_t_in_years=365/granularity_in_days)
 
-# log_ys = [log10(y) for y in ys]
-#
-# # take series of timedelta (in years)
-# xs = dates_to_timedelta_in_years(current_timeseries['date'])
-#
-# log_fit_result = fit_parameters(linear, xs, log_ys)
-#
-# log_m = log_fit_result[0]
-# estimate_m, sigma_m = log_m.n, log_m.s
-#
-# t_stat = abs(estimate_m) / sigma_m
-#
-# print(" {} - {} - {}".format(currency, category, kpi))
-#
-# print("(m , q) : {}".format(log_fit_result))
-# print("t-stat (n-sigma): {}".format(t_stat))
-#
-# p_value = sigma_to_p_value(t_stat)
-# print("p-value: {}".format(p_value))
-#
-# ten_to_m = 10 ** log_m
-# print("10^m: {} --> {} {}".format(ten_to_m, ten_to_m.n, ten_to_m.s))
-#
-# if p_value < alpha:
-#     print(
-#         "Reject null hypothesis (No trend). So there's a trend with m: {} , (linear scale {})".format(log_m, ten_to_m))
-# else:
-#     print("Cannot reject null hypothesis")
+print(" {} - {} - {}".format(currency, category, kpi))
+
+print("(mu_est, mu_err_est, sigma_est) : ({} , {}, {})".format(mu_est, mu_err_est, sigma_est))
+
+t_stat = abs(mu_est) / mu_err_est
+
+print("t-stat (n-sigma): {}".format(t_stat))
+
+p_value = sigma_to_p_value(t_stat)
+print("p-value: {}".format(p_value))
+
+if p_value < alpha:
+    print(
+        "Reject null hypothesis (No trend). So there's a trend.")
+else:
+    print("Cannot reject null hypothesis")
 
 
 plot_single_timeseries(ys, x_labels=dates, title=" {} - {} - {}".format(currency, category, kpi), y_label=kpi)
