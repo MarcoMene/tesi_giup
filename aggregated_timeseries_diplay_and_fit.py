@@ -26,6 +26,7 @@ min_date = timseries_data['date'].min()
 max_date = timseries_data['date'].max()
 
 YEAR_DAYS = 365
+month_days = 31
 
 
 def n_months_days(n):
@@ -39,7 +40,7 @@ confidence = 1 - alpha
 
 # single fit
 currency = 'GBP'
-category = 'design'  # 'art'  #
+category =  'art'  # 'design'  #
 kpi = 'avg'  # 'money' #
 
 granularity_in_days = YEAR_DAYS  # n_months_days(6) #

@@ -25,8 +25,8 @@ confidence = 1 - alpha
 
 # single fit  ** CONFIGURATION
 currency = 'EUR'
-category = 'design'  # 'art'  #
-kpi = 'money'
+category = 'art'  # 'design'  #
+kpi = 'min'
 
 current_timeseries = timseries_data[(timseries_data['currency'] == currency) &
                                     (timseries_data['category'] == category)
@@ -49,6 +49,11 @@ log_m = log_fit_result[0]
 estimate_m, sigma_m = log_m.n, log_m.s
 
 t_stat = abs(estimate_m) / sigma_m
+
+# t_stat_ten_to_m = abs(ten_to_m.n - 1) / ten_to_m.s
+# p_value_ten_to_m = sigma_to_p_value(t_stat_ten_to_m)
+# print("t-stat  ten_to_m (n-sigma): {}".format(t_stat_ten_to_m))
+# print("p-value ten_to_m: {}".format(p_value_ten_to_m))
 
 print(" {} - {} - {}".format(currency, category, kpi))
 
