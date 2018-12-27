@@ -65,6 +65,12 @@ print("p-value: {}".format(p_value))
 ten_to_m = 10 ** log_m
 print("10^m: {} --> {} {}".format(ten_to_m, ten_to_m.n, ten_to_m.s))
 
+t_stat_ten_to_m = abs(ten_to_m.n - 1) / ten_to_m.s
+p_value_ten_to_m = sigma_to_p_value(t_stat_ten_to_m)
+print("t-stat  ten_to_m (n-sigma): {}".format(t_stat_ten_to_m))
+print("p-value ten_to_m: {}".format(p_value_ten_to_m))
+
+
 if p_value < alpha:
     print(
         "Reject null hypothesis (No trend). So there's a trend with m: {} , (linear scale {})".format(log_m, ten_to_m))
