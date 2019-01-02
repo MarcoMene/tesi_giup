@@ -1,5 +1,6 @@
 from numpy import log, std, mean, sqrt
 from numpy.random import normal, seed
+from numpy import corrcoef
 
 
 def generate_gbm(mu, sigma, s0=1., N=100, return_diff=False):
@@ -25,12 +26,27 @@ def fit_gbm(xs, delta_t_in_years=1.):
     :return: mu, mu_err, sigma
     """
     # take log returns
-    log_rs = []
-    for i in range(1, len(xs)):
-        log_rs.append(log(xs[i] / xs[i - 1]))
+    log_rs = log_returns(xs)
 
     sigma = std(log_rs)
     mu = mean(log_rs) + sigma * sigma / 2
     mu_err = sigma / sqrt(len(log_rs))
 
     return mu / delta_t_in_years, mu_err / delta_t_in_years, sigma / sqrt(delta_t_in_years)
+
+
+def log_returns(xs):
+    log_rs = []
+    for i in range(1, len(xs)):
+        log_rs.append(log(xs[i] / xs[i - 1]))
+    return log_rs
+
+
+def correlation_returns(xs, ys):
+    log_r_xs = log_returns(xs)
+    log_r_ys = log_returns(ys)
+
+    return corrcoef(log_r_xs, log_r_ys)[0, 1]
+
+
+
