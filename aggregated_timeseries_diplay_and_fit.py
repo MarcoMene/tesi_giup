@@ -13,7 +13,9 @@ from utils import date_range, date_to_str
 
 from utils import sigma_to_p_value, dates_to_timedelta_in_years
 
-input_file = "/Users/marcomeneghelli/PycharmProjects/tesi_giup/output_csv/christie_auctions_data.csv"
+input_file = "/Users/Giulia/bendingspoons/tesi_giup/output_csv/christie_auctions_data.csv"
+# input_file = "/Users/marcomeneghelli/PycharmProjects/tesi_giup/output_csv/christie_auctions_data.csv"
+
 
 # sort values by time
 timseries_data = pd.read_csv(input_file)
@@ -24,6 +26,8 @@ min_date = timseries_data['date'].min()
 max_date = timseries_data['date'].max()
 
 YEAR_DAYS = 365
+month_days = 31
+
 
 def n_months_days(n):
     return n * 31
@@ -36,10 +40,10 @@ confidence = 1 - alpha
 
 # single fit
 currency = 'GBP'
-category = 'design' # 'art'  #
-kpi = 'avg' # 'money' #
+category =  'art'  # 'design'  #
+kpi = 'avg'  # 'money' #
 
-granularity_in_days = YEAR_DAYS # n_months_days(6) #
+granularity_in_days = YEAR_DAYS  # n_months_days(6) #
 
 # ** END CONFIGURATION
 
@@ -48,30 +52,33 @@ date_borders = date_range(min_date, max_date, delta_days=granularity_in_days)
 date_borders.append(max_date)
 
 # extract and clean data
-current_timeseries = timseries_data[(timseries_data['currency'] == currency) & (timseries_data['category'] == category)]
-current_timeseries.dropna(inplace=True)
+current_timeseries = timseries_data[
+    (timseries_data['currency'] == currency)
+    & (timseries_data['category'] == category)
+     # &  (timseries_data['departments_ids'].str.contains('29'))  # per vedere singolo dipartimento
 
+    # &  (  timseries_data['departments_ids'].str.contains('29') | timseries_data['departments_ids'].str.contains('74')  | timseries_data['departments_ids'].str.contains('111') )  # per vedere piuù dipartimenti
+    ]
+current_timeseries.dropna(inplace=True)
 
 # create aggregated timeseries
 dates = [date_to_str(d) for d in date_borders[:-1]]
 ys = []
 ys_err = []
 
-
 for i in range(len(date_borders) - 1):
     cur_date = date_borders[i]
-    next_date = date_borders[i+1]
+    next_date = date_borders[i + 1]
 
     partial_timeseries = current_timeseries[(current_timeseries['date'] >= cur_date)
                                             & (current_timeseries['date'] <= next_date)]
 
-    ys.append(partial_timeseries[kpi].mean())
+    ys.append(partial_timeseries[kpi].mean())  # aggregate with mean
     # ys_err.append(partial_timeseries[kpi].std() / sqrt(partial_timeseries[kpi].count()) )
-    # ys.append(partial_timeseries[kpi].sum())
-
+    # ys.append(partial_timeseries[kpi].sum()) # aggregate with sum
 
 # stat analysis
-mu_est, mu_err_est, sigma_est = fit_gbm(ys, delta_t_in_years=365/granularity_in_days)
+mu_est, mu_err_est, sigma_est = fit_gbm(ys, delta_t_in_years=365 / granularity_in_days)
 
 print(" {} - {} - {}".format(currency, category, kpi))
 
@@ -89,7 +96,6 @@ if p_value < alpha:
         "Reject null hypothesis (No trend). So there's a trend.")
 else:
     print("Cannot reject null hypothesis")
-
 
 plot_single_timeseries(ys, x_labels=dates, title=" {} - {} - {}".format(currency, category, kpi), y_label=kpi)
 # plot_errorbar_timeseries(ys, ys_err=ys_err, x_labels=dates, title=" {} - {} - {}".format(currency, category, kpi), y_label=kpi)

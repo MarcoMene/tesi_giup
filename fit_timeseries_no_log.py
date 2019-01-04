@@ -11,46 +11,34 @@ from scipy.stats import norm
 
 from utils import sigma_to_p_value, dates_to_timedelta_in_years
 
-
-input_file = "/Users/marcomeneghelli/PycharmProjects/tesi_giup/output_csv/christie_auctions_data.csv"
+input_file = "/Users/Giulia/bendingspoons/tesi_giup/output_csv/christie_auctions_data.csv"
 
 # sort values by time
 timseries_data = pd.read_csv(input_file)
 timseries_data['date'] = pd.to_datetime(timseries_data.date)
 timseries_data.sort_values(by='date', inplace=True)
 
-currencies = ['USD', 'EUR', 'GBP']
-
-categories = ['art', 'design']
-
-departments = list(art_departments.keys()) + list(design_departments.keys())
-departments = [str(d) for d in departments]
-
-kpis = ['avg', 'max', 'median', 'min', 'money', 'quantile_10', 'quantile_90']  # ,quantile_95,std]
-
-
-# aggregated_dataset = []
-
-
-
-alpha = 0.05
+alpha = 0.01
 confidence = 1 - alpha
-
-
-
 
 # single fit  ** CONFIGURATION
 currency = 'GBP'
-category = 'art' # 'design' #
+category = 'design'  # 'art' #
 
-current_timeseries = timseries_data[ (timseries_data['currency'] == currency) & (timseries_data['category'] == category)]
+current_timeseries = timseries_data[(timseries_data['currency'] == currency) & (timseries_data['category'] == category)]
 current_timeseries.dropna(inplace=True)
 
-ys = list(  current_timeseries['lots_unsold']/(current_timeseries['lots_unsold'] + current_timeseries['lots_sold']) )
+# percentuale di lotti invenduti
+# ys = list(  current_timeseries['lots_unsold']/(current_timeseries['lots_unsold'] + current_timeseries['lots_sold']) )
+
+# lottiin palio
+ys = list(current_timeseries['lots_unsold'] + current_timeseries['lots_sold'])
+
+# *** modify this to title your no-log variable
+what_are_you_looking_at = "lots_unsold + lots_sold"
 
 # take series of timedelta (in years)
 xs = dates_to_timedelta_in_years(current_timeseries['date'])
-
 
 # fit_result = fit_parameters(linear, xs, ys)
 
@@ -61,8 +49,7 @@ estimate_m, sigma_m = m.n, m.s
 
 t_stat = abs(estimate_m) / sigma_m
 
-
-print(" {} - {} - {}".format(currency, category, "percentage of lots unsold"))
+print(" {} - {} - {}".format(currency, category, what_are_you_looking_at))
 
 print("(m , q) : {}".format(fit_result))
 print("t-stat (n-sigma): {}".format(t_stat))

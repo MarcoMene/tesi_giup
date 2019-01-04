@@ -2,19 +2,15 @@ from os import listdir
 import pandas as pd
 
 from auction_calcs import extract_kpis
-from parse_map_auctions import calc_and_get_auction_map
 from plotting import plot_single_auction
 
-files_destination = "/Users/marcomeneghelli/Dropbox (Personal)/W/Education/tesi Giulia/christies_csvs"
-auctions_subfolder = "auctions"
+files_destination = "/Users/Giulia/Desktop/Data for Thesis/christies_csvs"
 
-auctions_folder = "{}/{}".format(files_destination, auctions_subfolder)
+auctions_folder = files_destination
 
 auction_prefix = "christie"
 
-auction_map = calc_and_get_auction_map()
-
-auction_id = "26830"
+auction_id = "27244"  # <-- cambia questo per cambiare asta
 
 f = "{}_{}.csv".format(auction_prefix, auction_id)
 
@@ -23,6 +19,6 @@ print(auctions_data)
 kpis = extract_kpis(auctions_data)
 print(kpis)
 
-plot_single_auction(auctions_data, logx=False, logy=False, bins=100,
+plot_single_auction(auctions_data, logx=False, logy=True, bins=150,
                     title="{} - auction {}".format(auction_prefix, auction_id))
 

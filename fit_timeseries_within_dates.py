@@ -24,12 +24,17 @@ alpha = 0.01
 confidence = 1 - alpha
 
 # single fit  ** CONFIGURATION
-currency = 'EUR'
-category = 'art'  # 'design'  #
-kpi = 'min'
+currency = 'USD'
+category =    'art'  # 'design'  #
+kpi = 'money'
+
+start_date = "2008-01-01"
+end_date = "2009-12-31"
 
 current_timeseries = timseries_data[(timseries_data['currency'] == currency) &
                                     (timseries_data['category'] == category)
+                                    & (timseries_data['date'] >= start_date)
+                                    & (timseries_data['date'] <= end_date)
                                     #  &  (timseries_data['departments_ids'].str.contains('29'))  # per vedere singolo dipartimento
 
                                     #&  (  timseries_data['departments_ids'].str.contains('29') | timseries_data['departments_ids'].str.contains('74')  | timseries_data['departments_ids'].str.contains('111') )  # per vedere piuù dipartimenti
@@ -50,11 +55,6 @@ estimate_m, sigma_m = log_m.n, log_m.s
 
 t_stat = abs(estimate_m) / sigma_m
 
-# t_stat_ten_to_m = abs(ten_to_m.n - 1) / ten_to_m.s
-# p_value_ten_to_m = sigma_to_p_value(t_stat_ten_to_m)
-# print("t-stat  ten_to_m (n-sigma): {}".format(t_stat_ten_to_m))
-# print("p-value ten_to_m: {}".format(p_value_ten_to_m))
-
 print(" {} - {} - {}".format(currency, category, kpi))
 
 print("(m , q) : {}".format(log_fit_result))
@@ -65,12 +65,6 @@ print("p-value: {}".format(p_value))
 
 ten_to_m = 10 ** log_m
 print("10^m: {} --> {} {}".format(ten_to_m, ten_to_m.n, ten_to_m.s))
-
-t_stat_ten_to_m = abs(ten_to_m.n - 1) / ten_to_m.s
-p_value_ten_to_m = sigma_to_p_value(t_stat_ten_to_m)
-print("t-stat  ten_to_m (n-sigma): {}".format(t_stat_ten_to_m))
-print("p-value ten_to_m: {}".format(p_value_ten_to_m))
-
 
 if p_value < alpha:
     print(
