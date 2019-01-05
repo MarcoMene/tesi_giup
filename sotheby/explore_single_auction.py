@@ -7,7 +7,7 @@ from plotting import plot_single_auction
 
 auctions_folder = "/Users/marcomeneghelli/Dropbox (Personal)/W/Education/tesi Giulia/sothebys_csvs/auctions"
 
-auction_id = "L10033"  # <-- cambia questo per cambiare asta
+auction_id = "PF1411"  # <-- cambia questo per cambiare asta
 
 f = "{}.csv".format(auction_id)
 
