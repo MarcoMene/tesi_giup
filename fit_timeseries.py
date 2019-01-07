@@ -24,15 +24,15 @@ alpha = 0.01
 confidence = 1 - alpha
 
 # single fit  ** CONFIGURATION
-currency = 'EUR'
+currency = 'GBP'
 category = 'design'  # 'art'  #
 kpi = 'avg'
 
 current_timeseries = timseries_data[(timseries_data['currency'] == currency) &
                                     (timseries_data['category'] == category)
-                                    #  &  (timseries_data['departments_ids'].str.contains('29'))  # per vedere singolo dipartimento
+                                    # &  (timseries_data['departments_ids'].str.contains('59'))  # per vedere singolo dipartimento
 
-                                    #&  (  timseries_data['departments_ids'].str.contains('29') | timseries_data['departments_ids'].str.contains('74')  | timseries_data['departments_ids'].str.contains('111') )  # per vedere piuù dipartimenti
+                                    &  (  timseries_data['departments_ids'].str.contains('68') | timseries_data['departments_ids'].str.contains('4') | timseries_data['departments_ids'].str.contains('5') | timseries_data['departments_ids'].str.contains('111') | timseries_data['departments_ids'].str.contains('112') | timseries_data['departments_ids'].str.contains('25') | timseries_data['departments_ids'].str.contains('26') | timseries_data['departments_ids'].str.contains('103'))  # per vedere piuù dipartimenti
 
     ]
 current_timeseries.dropna(inplace=True)
@@ -47,6 +47,9 @@ log_fit_result = fit_parameters(linear, xs, log_ys)
 
 log_m = log_fit_result[0]
 estimate_m, sigma_m = log_m.n, log_m.s
+
+log_q = log_fit_result[1]
+estimate_q, sigma_q = log_q.n, log_q.s
 
 t_stat = abs(estimate_m) / sigma_m
 
@@ -65,6 +68,9 @@ print("p-value: {}".format(p_value))
 
 ten_to_m = 10 ** log_m
 print("10^m: {} --> {} {}".format(ten_to_m, ten_to_m.n, ten_to_m.s))
+
+ten_to_q = 10 ** log_q
+print("10^q: {} --> {} {}".format(ten_to_q, ten_to_q.n, ten_to_q.s))
 
 if p_value < alpha:
     print(
