@@ -25,8 +25,8 @@ confidence = 1 - alpha
 
 # single fit  ** CONFIGURATION
 currency = 'EUR'
-category = 'art'  # 'design'  #
-kpi = 'min'
+category = 'design'  # 'art'  #
+kpi = 'avg'
 
 current_timeseries = timseries_data[(timseries_data['currency'] == currency) &
                                     (timseries_data['category'] == category)
