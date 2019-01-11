@@ -29,9 +29,9 @@ category = 'art' # 'design' #
 
 current_timeseries = timseries_data[(timseries_data['currency'] == currency) &
                                     (timseries_data['category'] == category)
-                                    #  &  (timseries_data['departments_ids'].str.contains('29'))  # per vedere singolo dipartimento
+                                    #  &  (timseries_data['departments_names'].str.contains('29'))  # per vedere singolo dipartimento
 
-                                    #&  (  timseries_data['departments_ids'].str.contains('29') | timseries_data['departments_ids'].str.contains('74')  | timseries_data['departments_ids'].str.contains('111') )  # per vedere piuù dipartimenti
+                                    #&  (  timseries_data['departments_names'].str.contains('29') | timseries_data['departments_names'].str.contains('74')  | timseries_data['departments_names'].str.contains('111') )  # per vedere piuù dipartimenti
 
     ]
 current_timeseries.dropna(inplace=True)

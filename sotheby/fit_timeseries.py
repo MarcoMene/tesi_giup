@@ -12,6 +12,7 @@ from scipy.stats import norm
 from utils import sigma_to_p_value, dates_to_timedelta_in_years
 
 input_file = "/Users/Giulia/bendingspoons/tesi_giup/output_csv/sotheby_auctions_data.csv"
+input_file = "/Users/marcomeneghelli/PycharmProjects/tesi_giup/output_csv/sotheby_auctions_data.csv"
 
 # sort values by time
 timseries_data = pd.read_csv(input_file)
@@ -30,9 +31,9 @@ kpi = 'avg'
 
 current_timeseries = timseries_data[(timseries_data['currency'] == currency) &
                                     (timseries_data['category'] == category)
-                                   # &  (timseries_data['departments_ids'].str.contains('20th Century Design'))  # per vedere singolo dipartimento
+                                   # &  (timseries_data['departments_names'].str.contains('20th Century Design'))  # per vedere singolo dipartimento
 
-                                    &  (  timseries_data['departments_ids'].str.contains('American Furniture, Decorative Art & Folk Art') | timseries_data['departments_ids'].str.contains('European Ceramics')  | timseries_data['departments_ids'].str.contains('English Furniture') | timseries_data['departments_ids'].str.contains('French & Continental Furniture') | timseries_data['departments_ids'].str.contains('19th Century Furniture & Sculpture') | timseries_data['departments_ids'].str.contains('European Sculpture & Works of Art') )  # per vedere piuù dipartimenti
+                                    &  (  timseries_data['departments_names'].str.contains('American Furniture, Decorative Art & Folk Art') | timseries_data['departments_names'].str.contains('European Ceramics')  | timseries_data['departments_names'].str.contains('English Furniture') | timseries_data['departments_names'].str.contains('French & Continental Furniture') | timseries_data['departments_names'].str.contains('19th Century Furniture & Sculpture') | timseries_data['departments_names'].str.contains('European Sculpture & Works of Art') )  # per vedere piuù dipartimenti
 
     ]
 current_timeseries.dropna(inplace=True)
