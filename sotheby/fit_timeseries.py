@@ -12,7 +12,7 @@ from scipy.stats import norm
 from utils import sigma_to_p_value, dates_to_timedelta_in_years
 
 input_file = "/Users/Giulia/bendingspoons/tesi_giup/output_csv/sotheby_auctions_data.csv"
-input_file = "/Users/marcomeneghelli/PycharmProjects/tesi_giup/output_csv/sotheby_auctions_data.csv"
+# input_file = "/Users/marcomeneghelli/PycharmProjects/tesi_giup/output_csv/sotheby_auctions_data.csv"
 
 # sort values by time
 timseries_data = pd.read_csv(input_file)
@@ -31,9 +31,9 @@ kpi = 'avg'
 
 current_timeseries = timseries_data[(timseries_data['currency'] == currency) &
                                     (timseries_data['category'] == category)
-                                   # &  (timseries_data['departments_names'].str.contains('20th Century Design'))  # per vedere singolo dipartimento
+                                    # &  (timseries_data['departments_names'].str.contains('20th Century Design'))  # per vedere singolo dipartimento
 
-                                    &  (  timseries_data['departments_names'].str.contains('American Furniture, Decorative Art & Folk Art') | timseries_data['departments_names'].str.contains('European Ceramics')  | timseries_data['departments_names'].str.contains('English Furniture') | timseries_data['departments_names'].str.contains('French & Continental Furniture') | timseries_data['departments_names'].str.contains('19th Century Furniture & Sculpture') | timseries_data['departments_names'].str.contains('European Sculpture & Works of Art') )  # per vedere piuù dipartimenti
+                                   &  (  timseries_data['departments_names'].str.contains('American Furniture, Decorative Art & Folk Art') | timseries_data['departments_names'].str.contains('European Ceramics')  | timseries_data['departments_names'].str.contains('English Furniture') | timseries_data['departments_names'].str.contains('French & Continental Furniture') | timseries_data['departments_names'].str.contains('19th Century Furniture & Sculpture') | timseries_data['departments_names'].str.contains('European Sculpture & Works of Art') )  # per vedere piuù dipartimenti
 
     ]
 current_timeseries.dropna(inplace=True)
@@ -49,6 +49,9 @@ log_fit_result = fit_parameters(linear, xs, log_ys)
 log_m = log_fit_result[0]
 estimate_m, sigma_m = log_m.n, log_m.s
 
+log_q = log_fit_result[1]
+estimate_q, sigma_q = log_q.n, log_q.s
+
 t_stat = abs(estimate_m) / sigma_m
 
 print(" {} - {} - {}".format(currency, category, kpi))
@@ -62,11 +65,8 @@ print("p-value: {}".format(p_value))
 ten_to_m = 10 ** log_m
 print("10^m: {} --> {} {}".format(ten_to_m, ten_to_m.n, ten_to_m.s))
 
-t_stat_ten_to_m = abs(ten_to_m.n - 1) / ten_to_m.s
-p_value_ten_to_m = sigma_to_p_value(t_stat_ten_to_m)
-print("t-stat  ten_to_m (n-sigma): {}".format(t_stat_ten_to_m))
-print("p-value ten_to_m: {}".format(p_value_ten_to_m))
-
+ten_to_q = 10 ** log_q
+print("10^q: {} --> {} {}".format(ten_to_q, ten_to_q.n, ten_to_q.s))
 
 if p_value < alpha:
     print(
