@@ -11,7 +11,7 @@ from scipy.stats import norm
 
 from utils import sigma_to_p_value, dates_to_timedelta_in_years
 
-input_file = "/Users/marcomeneghelli/PycharmProjects/tesi_giup/output_csv/sotheby_auctions_data.csv"
+input_file = "/Users/Giulia/bendingspoons/tesi_giup/output_csv/sotheby_auctions_data.csv"
 
 # sort values by time
 timseries_data = pd.read_csv(input_file)
@@ -24,8 +24,8 @@ alpha = 0.01
 confidence = 1 - alpha
 
 # single fit  ** CONFIGURATION
-currency = 'USD'
-category = 'design'  # 'art' #
+currency = 'GBP'
+category = 'art' # 'design' #
 
 current_timeseries = timseries_data[(timseries_data['currency'] == currency) &
                                     (timseries_data['category'] == category)
@@ -37,10 +37,10 @@ current_timeseries = timseries_data[(timseries_data['currency'] == currency) &
 current_timeseries.dropna(inplace=True)
 
 # percentuale di lotti invenduti
-# ys = list(  current_timeseries['lots_unsold']/(current_timeseries['lots_unsold'] + current_timeseries['lots_sold']) )
+ys = list(  current_timeseries['lots_unsold']/(current_timeseries['lots_unsold'] + current_timeseries['lots_sold']) )
 
 # lottiin palio
-ys = list(current_timeseries['lots_unsold'] + current_timeseries['lots_sold'])
+#ys = list(current_timeseries['lots_unsold'] + current_timeseries['lots_sold'])
 
 # take series of timedelta (in years)
 xs = dates_to_timedelta_in_years(current_timeseries['date'])
@@ -60,7 +60,7 @@ t_stat = abs(estimate_m) / sigma_m
 # print("t-stat  ten_to_m (n-sigma): {}".format(t_stat_ten_to_m))
 # print("p-value ten_to_m: {}".format(p_value_ten_to_m))
 
-print(" {} - {} - {}".format(currency, category, kpi))
+print(" {} - {} ".format(currency, category))
 
 print("(m , q) : {}".format(fit_result))
 print("t-stat (n-sigma): {}".format(t_stat))
