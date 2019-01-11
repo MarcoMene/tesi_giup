@@ -25,8 +25,7 @@ confidence = 1 - alpha
 
 # single fit  ** CONFIGURATION
 currency = 'USD'
-category =    'design'  #
-kpi = 'max'
+category = 'design'  # 'art' #
 
 current_timeseries = timseries_data[(timseries_data['currency'] == currency) &
                                     (timseries_data['category'] == category)
@@ -37,7 +36,11 @@ current_timeseries = timseries_data[(timseries_data['currency'] == currency) &
     ]
 current_timeseries.dropna(inplace=True)
 
-ys = list(current_timeseries[kpi])
+# percentuale di lotti invenduti
+# ys = list(  current_timeseries['lots_unsold']/(current_timeseries['lots_unsold'] + current_timeseries['lots_sold']) )
+
+# lottiin palio
+ys = list(current_timeseries['lots_unsold'] + current_timeseries['lots_sold'])
 
 # take series of timedelta (in years)
 xs = dates_to_timedelta_in_years(current_timeseries['date'])
